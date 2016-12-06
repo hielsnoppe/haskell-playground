@@ -32,9 +32,23 @@ perfectsUntil :: Int -> [Int]
 perfectsUntil n = []
 
 -- 3. Aufgabe
--- a) TODO
+-- a)
+
+pack :: (Eq a) => [a] -> [(a, Int)]
+pack []     = []
+pack [x]    = [(x, 1)]
+pack (x:xs) = packr (x, 1) xs
+
+packr :: (Eq a) => (a, Int) -> [a] -> [(a, Int)]
+packr tup []    = [tup]
+packr (e, n) (x:xs)
+    | (e == x)  = packr (e, n + 1) xs
+    | otherwise = [(e, n)] ++ (packr (x, 1) xs)
 
 -- b) TODO
+
+pack2 :: (Eq a) => [a] -> [(a, Int)]
+pack2 (x:xs)  = [(x, 0)]
 
 -- 4. Aufgabe
 counts :: (Num a, Eq b) => b -> [b] -> a
@@ -53,7 +67,15 @@ single cond list = foldr (+) 0 (map (\ i -> if (cond i) then 1 else 0) list) == 
 -- 3. Test whether sum is 1:
 --                                                                           == 1
 
---mostly :: (a -> Bool) -> [a] -> Bool
+mostly :: (a -> Bool) -> [a] -> Bool
+mostly cond list = foldr (+) 0 (map (\ i -> if (cond i) then 1 else -1) list) > 0
+-- 1. Replace satisfying elements with 1 and others with -1:
+--                              map (\ i -> if (cond i) then 1 else -1) list
+-- 2. Sum all elements:
+--                 foldr (+) 0 (                                            )
+-- 3. Test whether sum is greater than 0:
+--                                                                            > 0
+
 --okt2bin :: [Char] -> [Char]
 --ggt_of :: [Integer] -> Integer
 --bin2dec :: [Integer] -> Integer
