@@ -45,12 +45,19 @@ packr (e, n) (x:xs)
     | (e == x)  = packr (e, n + 1) xs
     | otherwise = [(e, n)] ++ (packr (x, 1) xs)
 
--- b) TODO
+-- b)
 
 pack2 :: (Eq a) => [a] -> [(a, Int)]
-pack2 (x:xs)  = [(x, 0)]
+pack2 list  = foldr packr2 [(last list, 1)] (init list)
+
+packr2 :: (Eq a) => a -> [(a, Int)] -> [(a, Int)]
+packr2 x []     = [(x, 1)]
+packr2 x ((e, n):rest)
+    | (e == x)  = (e, n + 1) : rest
+    | otherwise = (x, 1) : (e, n) : rest
 
 -- 4. Aufgabe
+
 counts :: (Num a, Eq b) => b -> [b] -> a
 counts x list = foldr (+) 0 (map (\ i -> if i == x then 1 else 0) list)
 -- 1. Replace matching elements with 1 and others with 0:
